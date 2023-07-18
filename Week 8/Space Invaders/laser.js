@@ -1,6 +1,7 @@
 class Laser{
     static SPEED = 5;
     static DIAMETER = 5;
+    
     static fireSound = null;
 
     constructor(x, y){
@@ -27,7 +28,9 @@ class Laser{
     }
 
     hits(enemy){
+        if(Laser){
 
+        }
     }
 
 }

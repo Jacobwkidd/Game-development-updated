@@ -1,8 +1,16 @@
 const FIRE_KEY = 70; //keycode for 'f'
 const lasers = [];
 
+
+
+const enemies = [];
+const ENEMY_COLS = 6;
+const ENEMY_ROWS = 5;
+
+
+//----------------------
 let player = null;
-let explosionSound = null;
+let explosionSound = null; // used when enemy hit
 let laserSound = null;
 //let laser = null;
 function preload(){
@@ -14,6 +22,7 @@ function setup(){
     createCanvas(800, 800);
     player = new Player(width / 2, height - 10);
     laser = new Laser(width / 2, height - 50);
+    enemy = new Enemy(40, 40);
 }
 
 function draw(){
@@ -22,7 +31,10 @@ function draw(){
     player.draw();
     player.move();
 
+    renderEnemies();
+
     renderLaser();
+
 }
 
 function renderLaser(){
@@ -35,9 +47,17 @@ function renderLaser(){
         if(lasers[i].isOffScreen()){
             lasers.splice(i, 1);// remove the laser
         }
+        
     }
 
     
+}
+function createEnemyGrid(){
+    for(let i = 0; i < ENEMY_COLS; i++){ // i = x position
+        for(let j = 0; j < ENEMY_ROWS; j++){    // j = y position
+            enemies.push(new Enemy(i * 80 + 80, j * 60 + 60)); // spawning it the ships
+        }
+    }
 }
 
 function keyPressed(){
@@ -48,3 +68,29 @@ function keyPressed(){
         //laser = player.shoot();
     }
 }
+
+function renderEnemies(){
+    // Update and draw all enemies		
+    enemy.draw(); 
+    enemy.createEnemyGrid();
+    enemy.update();   
+}
+
+function dropEnemiesAndReverseDirection(){
+    
+}
+
+function checkEnemyHit(laser, laserIndex){
+    // Check if laser hits any enemy
+    if(laser.hits(enemies)){
+        laser.splice(i, 1);// remove the laser
+        
+    }
+}
+// function collision(){
+//     for(let i = things.length - 1; i >= 0; i--){
+//         for(let j = things.length - 1; j >= 0; j--){
+
+//         }
+//     }
+// }

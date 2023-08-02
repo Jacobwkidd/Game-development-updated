@@ -22,7 +22,8 @@ function setup(){
     createCanvas(800, 800);
     player = new Player(width / 2, height - 10);
     laser = new Laser(width / 2, height - 50);
-    enemy = new Enemy(40, 40);
+    // enemy = new Enemy(40, 40);
+    createEnemyGrid(); 
 }
 
 function draw(){
@@ -30,9 +31,9 @@ function draw(){
     //player.update();
     player.draw();
     player.move();
-
+    
+    
     renderEnemies();
-
     renderLaser();
 
 }
@@ -40,14 +41,16 @@ function draw(){
 function renderLaser(){
     //update and draw lasers
     for(let i = lasers.length - 1; i >= 0; i--){
-        lasers[i].draw();
         lasers[i].update();
+        lasers[i].draw();
+        
 
         // if a laser is off screen, remove it from the array
         if(lasers[i].isOffScreen()){
             lasers.splice(i, 1);// remove the laser
+            continue;
         }
-        
+        checkEnemyHit(lasers[i], i);
     }
 
     
@@ -70,27 +73,27 @@ function keyPressed(){
 }
 
 function renderEnemies(){
-    // Update and draw all enemies		
-    enemy.draw(); 
-    enemy.createEnemyGrid();
-    enemy.update();   
+    // Update and draw all enemies	
+    for(let i = 0; i < enemies.length; i++){
+        enemies[i].draw(); 
+        enemies[i].update(); 
+        if(enemies[i].hasHitsSideOffScreen()){
+            for(let j = 0; j < enemies.length; j++){
+                enemies[j].dropAndReverseDirection();
+            }
+        }
+    }	
 }
 
-function dropEnemiesAndReverseDirection(){
-    
-}
 
 function checkEnemyHit(laser, laserIndex){
     // Check if laser hits any enemy
-    if(laser.hits(enemies)){
-        laser.splice(i, 1);// remove the laser
-        
+    for(let i = enemies.length - 1; i >= 0; i--){
+        if(laser.hits(enemies[i])){
+            console.log("Hello");
+            lasers.splice(laserIndex, 1);// remove the laser
+            enemies.splice(i, 1);// remove the laser
+            return ;
+        }
     }
 }
-// function collision(){
-//     for(let i = things.length - 1; i >= 0; i--){
-//         for(let j = things.length - 1; j >= 0; j--){
-
-//         }
-//     }
-// }

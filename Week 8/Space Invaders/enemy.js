@@ -19,36 +19,42 @@ class Enemy{
     }
 
     update(){
-
+        this.x += this.xVelocity;
     }
+
+    
+    // leftEdge(){
+    //     return this.x - this.size / 2;
+    // }
     sideEdge(){
-
+        return this.x + this.size / 2;
     }
-    topEdge(){
-
-    }
+    // topEdge(){
+    //     return this.y + this.size /2;
+    // }
     bottomEdge(){
-
+        return this.y - this.size / 2;
     }
 
     // tell if hit side of canvas
     enemyHitsSide(){
-        this.x = constrain(this.x, this.radius, width - this.radius);
-        if(this.x == this.isOffScreen()){
-            this.DropShip();
+        this.x = constrain(this.x, this.size, width - this.size);
+        if(this.x == this.hasHitsSideOffScreen()){
+            console.log("Hello");
+            this.dropAndReverseDirection();
         }
     }
 
-    hasHitsSideOfScreen(){  
-        const isOffSideOfScreen = this.x + this.radius < 0 || this.x - this.radius > width;
+    hasHitsSideOffScreen(){  
+        const isOffSideOfScreen = this.x + this.size < 0 || this.x + this.size > width;
         return isOffSideOfScreen;
     }
 
     //drop them down & reverse direction
 
-    DropAndReverseDirection(){
-        this.y = DROP;
-
+    dropAndReverseDirection(){
+        this.y += Enemy.DROP;
+        this.xVelocity = -this.xVelocity;
     }
 
 

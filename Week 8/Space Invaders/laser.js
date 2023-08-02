@@ -28,9 +28,8 @@ class Laser{
     }
 
     hits(enemy){
-        if(Laser){
-
-        }
+        const d = dist(this.x, this.y, enemy.sideEdge(), enemy.bottomEdge());
+        return d < this.radius + (enemy.size / 2);
     }
 
 }
